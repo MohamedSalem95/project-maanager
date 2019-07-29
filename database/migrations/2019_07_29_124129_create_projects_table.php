@@ -19,7 +19,7 @@ class CreateProjectsTable extends Migration
             $table->text('description');
 
             // the user who created the project
-            $table->unsignedBigInteger('user_is');
+            $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
