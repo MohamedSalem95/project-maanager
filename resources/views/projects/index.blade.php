@@ -15,6 +15,7 @@
 
                         </p>
                         <small class="text-muted font-weight-bold"> created {{ $project->date_for_humans }} </small>
+                        <a class="btn btn-sm btn-outline-primary" href="{{ $project->url }}"> view project </a>
                     </div>
                 </div>
             @empty

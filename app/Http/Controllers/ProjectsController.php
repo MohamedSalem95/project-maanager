@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Project;
 use Illuminate\Http\Request;
 use Auth;
+use App\User;
 
 class ProjectsController extends Controller
 {
@@ -57,7 +58,9 @@ class ProjectsController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        $users = User::all();
+        $members = $project->members;
+        return view('projects.show', ['project' => $project, 'users' => $users, 'members' => $members]);
     }
 
     /**
@@ -68,7 +71,7 @@ class ProjectsController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('projects.edit', ['project' => $project]);
     }
 
     /**
@@ -80,7 +83,15 @@ class ProjectsController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:100',
+            'description' => 'required'
+        ]);
+        $project->update($request->all());
+        return redirect()
+                        ->route('projects.show', $project->id)
+                        ->with('success', 'product updated successfully');
+        
     }
 
     /**
@@ -92,5 +103,24 @@ class ProjectsController extends Controller
     public function destroy(Project $project)
     {
         //
+    }
+
+    public function addUser(Request $request, Project $project){
+        $request->validate([
+            'user' => 'required'
+        ]);
+        $user = User::findOrFail($request->user);
+        $project->members()->attach($user);
+        return redirect()
+                        ->route('projects.show', $project->id)
+                        ->with('success', "user $user->name added successfully");
+    }
+
+    public function removeUser(Project $project, User $user){
+        $project->members()->detach($user);
+        return redirect()
+                        ->route('projects.show', $project->id)
+                        ->with('success', "user $user->name removed from project successfully");
+
     }
 }

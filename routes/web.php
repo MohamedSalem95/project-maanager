@@ -17,4 +17,6 @@ Auth::routes();
 
 
 Route::resource('projects', 'ProjectsController');
-Route::resource('tasks', 'TasksController');
+Route::post('projects/{project}/addUser', 'ProjectsController@addUser')->name('projects.addUser');
+Route::get('projects/{project}/remove/{user}', 'projectsController@removeUser')->name('projects.removeUser');
+Route::resource('projects.tasks', 'TasksController');

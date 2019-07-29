@@ -26,4 +26,8 @@ class Project extends Model {
     public function getDateForHumansAttribute(){
         return $this->created_at->diffForHumans();
     }
+
+    public function getUrlAttribute(){
+        return route('projects.show', $this->id);
+    }
 }
