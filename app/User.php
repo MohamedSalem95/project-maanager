@@ -38,12 +38,20 @@ class User extends Authenticatable
     ];
 
 
+    // the list of projects the user created
     public function projects(){
         return $this->hasMany(Project::class);
     }
 
+    // the list of projects the user is in
     public function projects_iam_in(){
         return $this->belongsToMany(Project::class);
     }
-    
+
+    // the list of tasks the user has
+    public function tasks(){
+        return $this->hasMany(Task::class);
+    }
+
+
 }
