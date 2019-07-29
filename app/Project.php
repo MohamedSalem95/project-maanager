@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model {
 
+    protected $fillable = ['name', 'description'];
+
     // returns the user who created the project
     public function User() {
         return $this->belongsTo(User::class);
@@ -19,5 +21,9 @@ class Project extends Model {
     // the list of tasks in the project
     public function tasks(){
         return $this->hasMany(Task::class);
+    }
+
+    public function getDateForHumansAttribute(){
+        return $this->created_at->diffForHumans();
     }
 }
